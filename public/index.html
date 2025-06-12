@@ -12,32 +12,32 @@
 			<form action="/generate" method="POST">
 				<label
 					><p>Vorname:</p>
-					<input type="text" name="firstname" required /></label
+					<input type="text" name="firstname" required autocomplete/></label
 				><br />
 				<label
 					><p>Nachname:</p>
-					<input type="text" name="lastname" required /></label
+					<input type="text" name="lastname" required autocomplete/></label
 				><br />
-				<label><p>Jobbezeichnung:</p> <input type="text" name="job" required /></label
-				><br />
-				<label
-					><p>E-Mail:</p> <input type="email" name="email" required /></label
+				<label><p>Jobbezeichnung:</p> <input type="text" name="job" required autocomplete/></label
 				><br />
 				<label
-					><p>Festnetznummer:</p>
-					<input type="tel" name="telephone" required /></label
+					><p>E-Mail:</p> <input type="email" name="email" required autocomplete/></label
+				><br />
+				<label
+					><p>Firmenfestnetz Endziffer:</p>
+					<input type="number" min="1" max="99" name="ending" required autocomplete/></label
 				><br />
 				<label
 					><p>Firmenhandy <span>(optional)</span>:</p>
-					<input type="tel" name="phone" /></label
+					<input type="tel" name="phone" autocomplete/></label
 				><br />
 				<label
 					><p>LinkedIn URL <span>(optional)</span>:</p>
-					<input type="url" name="linkedin" /></label
+					<input type="url" name="linkedin" autocomplete pattern="^https:\/\/(www\.)?linkedin\.com/in/.*$"/></label
 				><br />
 				<label
-					><p>Microsoft Booking URL <span>(optional)</span>:</p>
-					<input type="url" name="booking" /></label
+					><p>Microsoft Booking URL <span>(optional)</span>:<span style="float:right"><a href="https://www.microsoft.com/de-de/microsoft-365/business/scheduling-and-booking-app" target="_black">weitere Infos</a></span></p>
+					<input type="url" name="booking" autocomplete pattern="^https://outlook\.office\.com/bookwithme/user/[0-9a-zA-Z@./&=?]*" /></label
 				><br /><br />
 				<p>Wähle ein Banner:</p>
 				<div class="image-selection">
