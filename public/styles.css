@@ -1,0 +1,102 @@
+* {
+    font-family: Calibri, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+span {
+    font-style: italic;
+    color: #0000FF;
+    font-size: 0.75em;
+}
+body {
+    margin: 0;
+    padding: 50px;
+    background-color: #003C3C;
+}
+.card {
+    background-color: white;
+    padding: 50px;
+    max-width: 500px;
+    margin: auto
+}
+h1 {
+    font-size: 1.45rem;
+    margin-bottom: 50px;;
+}
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.image-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.image-label{
+    display: block;
+    padding: 2px;
+    cursor: pointer;
+    position: relative;
+}
+.image-label > img {
+    display: block;
+    /*position: relative;*/
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid;
+    background-color: transparent;
+    border-color: transparent;
+    transition: border 0.3s ease;
+}
+input[type="radio"]:hover {
+    border-color: grey;
+}
+input[type="radio"]:checked {
+    border-color: #0000FF;
+}
+input[type="radio"] + img {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+input[type="radio"]:hover + img {
+    opacity: 0.95;
+}
+input[type="radio"]:checked + img {
+    opacity: 1;
+}
+input {
+    padding: 6px;
+}
+button {
+    background-color: #FFFFFF;
+    color: #0000FF;
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px 2px #0000FF14;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+button:hover {
+    border-color: #0000FF;
+    padding: 10px 25px;
+    box-shadow: 20px 10px 14px 2px #0000FF14;
+}

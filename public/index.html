@@ -1,0 +1,91 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>persönliche E-Mail-Signatur erstellen</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<div class="card">
+			<h1>Erstelle deine persönliche E-Mail-Signatur</h1>
+			<form action="/generate" method="POST">
+				<label
+					><p>Vorname:</p>
+					<input type="text" name="firstname" required /></label
+				><br />
+				<label
+					><p>Nachname:</p>
+					<input type="text" name="lastname" required /></label
+				><br />
+				<label><p>Jobbezeichnung:</p> <input type="text" name="job" required /></label
+				><br />
+				<label
+					><p>E-Mail:</p> <input type="email" name="email" required /></label
+				><br />
+				<label
+					><p>Festnetznummer:</p>
+					<input type="tel" name="telephone" required /></label
+				><br />
+				<label
+					><p>Firmenhandy <span>(optional)</span>:</p>
+					<input type="tel" name="phone" /></label
+				><br />
+				<label
+					><p>LinkedIn URL <span>(optional)</span>:</p>
+					<input type="url" name="linkedin" /></label
+				><br />
+				<label
+					><p>Microsoft Booking URL <span>(optional)</span>:</p>
+					<input type="url" name="booking" /></label
+				><br /><br />
+				<p>Wähle ein Banner:</p>
+				<div class="image-selection">
+					<label class="image-label">
+						<input
+							type="radio"
+							name="image"
+							value="email-signatur-1.png"
+							checked
+						/>
+                        <img src="/images/email-signatur-1.png"  />
+					</label>
+					<label class="image-label">
+						<input
+							type="radio"
+							name="image"
+							value="email-signatur-2.png"
+						/>
+						<img src="/images/email-signatur-2.png"  />
+					</label>
+					<label class="image-label">
+						<input
+							type="radio"
+							name="image"
+							value="email-signatur-3.png"
+						/>
+						<img src="/images/email-signatur-3.png"  />
+					</label>
+					<label class="image-label">
+						<input
+							type="radio"
+							name="image"
+							value="email-signatur-4.png"
+						/>
+						<img src="/images/email-signatur-4.png"  />
+					</label>
+					<label class="image-label">
+						<input
+							type="radio"
+							name="image"
+							value="email-signatur-5.png"
+						/>
+						<img src="/images/email-signatur-5.png"  />
+					</label>
+				</div>
+				<br /><br />
+				<button type="submit">Erstelle deine eigene E-Mail-Signature</button>
+			</form>
+		</div>
+	</body>
+</html>
