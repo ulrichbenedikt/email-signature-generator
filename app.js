@@ -42,7 +42,7 @@ app.post("/generate", async (req, res) => {
 		job,
 		email,
 		phone,
-		telephone,
+		ending,
 		linkedin,
 		image,
 		booking,
@@ -59,9 +59,11 @@ app.post("/generate", async (req, res) => {
 		}),
 		new Paragraph(job),
 		new Paragraph(""),
+        new Paragraph("---"),
+        new Paragraph(""),
 		new Paragraph({
 			children: [
-				new TextRun("email = "),
+				new TextRun("               ✉️ "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -76,16 +78,15 @@ app.post("/generate", async (req, res) => {
 		}),
 		new Paragraph({
 			children: [
-				new TextRun("phone = "),
+				new TextRun("               📞 "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
-							text: telephone,
-							//hyperlink: `mailto:${email}`,
+							text: `+49 911 81000-${ending}`,
 							...linkStyle(),
 						}),
 					],
-					link: `tel:${telephone}`,
+					link: `tel:+4991181000${ending}`,
 				}),
 			],
 		}),
@@ -95,7 +96,7 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("mobile = "),
+					new TextRun("               📱 "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -110,16 +111,19 @@ app.post("/generate", async (req, res) => {
 			})
 		);
 	}
+    if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
+        paragraphs.push(new Paragraph(""));
+    }
 	if (linkedin && linkedin.trim() !== "") {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("linkedIn = "),
+					new TextRun("               linkedIn -> "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
 								text: linkedin.replace(
-									"https://linkedin.com/in",
+									"https://linkedin.com",
 									""
 								),
 								//hyperlink: `mailto:${email}`,
@@ -136,10 +140,11 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
+                    new TextRun("               Termin -> "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
-								text: "//> einen Termin vereinbaren",
+								text: "hier vereinbaren",
 								bold: true,
                                 color: "0000FF",
 								underline: { type: "single" },
@@ -184,24 +189,23 @@ app.post("/generate", async (req, res) => {
 				new TextRun(" | EDV Dienstleistung und Softwareentwicklung"),
 			],
 		}),
-		new Paragraph("Im Pinderpark 5, 90513 Zirndorf"),
 		new Paragraph({
-			children: [
-				new TextRun("website = "),
-				new ExternalHyperlink({
+            children: [
+                new TextRun("Im Pinderpark 5, 90513 Zirndorf | "),
+                new ExternalHyperlink({
 					children: [
 						new TextRun({
-							text: "puresolution.de",
+							text: "www.puresolution.de",
 							...linkStyle(),
 						}),
 					],
 					link: "https://www.puresolution.de",
 				}),
-			],
-		}),
+            ],
+        }),
 		new Paragraph({
 			children: [
-				new TextRun("phone = "),
+				new TextRun("tel: "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -211,11 +215,7 @@ app.post("/generate", async (req, res) => {
 					],
 					link: "tel:+49911810000",
 				}),
-			],
-		}),
-		new Paragraph({
-			children: [
-				new TextRun("fax = "),
+                new TextRun(" | fax: "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
