@@ -59,7 +59,7 @@ app.post("/generate", async (req, res) => {
 		}),
 		new Paragraph(job),
 		new Paragraph(""),
-        new Paragraph("---"),
+        new Paragraph("____________________________________________________________________"),
         new Paragraph(""),
 		new Paragraph({
 			children: [
@@ -231,7 +231,25 @@ app.post("/generate", async (req, res) => {
 		new Paragraph({
 			children: [
 				new TextRun({
-					text: "PureSolution GmbH | Geschäftsführer: Hasso Leeder, Tilo Siegler | Registergericht Fürth HRB 8044 | USt.-IdNr.: DE209913453 | Datenschutzhinweis: PureSolution GmbH verarbeitet Ihre Kontaktdaten elektronisch. | Weitere Informationen finden Sie in der ",
+					text: "PureSolution GmbH | Geschäftsführer: Hasso Leeder, Tilo Siegler | Registergericht Fürth HRB 8044 |",
+					size: 16, // 9pt
+					color: "BEC0BF",
+				}),
+			],
+		}),
+		new Paragraph({
+			children: [
+				new TextRun({
+					text: "USt.-IdNr.: DE209913453 | Datenschutzhinweis: PureSolution GmbH verarbeitet Ihre Kontaktdaten elektronisch. |",
+					size: 16, // 9pt
+					color: "BEC0BF",
+				})
+			],
+		}),
+		new Paragraph({
+			children: [
+				new TextRun({
+					text: "Weitere Informationen finden Sie in der ",
 					size: 16, // 9pt
 					color: "BEC0BF",
 				}),
