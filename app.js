@@ -105,7 +105,7 @@ app.post("/generate", async (req, res) => {
 								...linkStyle(),
 							}),
 						],
-						link: `tel:${phone}`,
+						link: `tel:${phone.replaceAll(' ','')}`,
 					}),
 				],
 			})
@@ -162,6 +162,10 @@ app.post("/generate", async (req, res) => {
 	// Add image
 	const imagePath = path.join(__dirname, "images", image);
 
+	if (!/^[\w\-]+\.(png|jpg|jpeg)$/i.test(image)) {
+		return res.status(400).send("Invalid image filename.");
+	}
+
 	if (!fs.existsSync(imagePath)) {
 		return res.status(400).send("Image not found or not selected.");
 	}
@@ -171,6 +175,7 @@ app.post("/generate", async (req, res) => {
 		new Paragraph({
 			children: [
 				new ImageRun({
+					type: 'png',
 					data: imageBuffer,
 					transformation: { width: 500, height: 155 },
 				}),
@@ -223,7 +228,7 @@ app.post("/generate", async (req, res) => {
 							...linkStyle(),
 						}),
 					],
-					link: "fax:+499118100020",
+					link: "tel:+499118100020",
 				}),
 			],
 		}),
@@ -332,14 +337,84 @@ app.post("/generate", async (req, res) => {
 			firstname +
 			"-" +
 			lastname +
-			".docx"
+			".docx",
 	);
 	res.setHeader(
 		"Content-Type",
 		"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+		
 	);
 	res.send(buffer);
+
+	//fs.writeFileSync("My Document.docx", buffer);
+
 });
+
+/*
+app.post("/generate", async (req, res) => {
+
+	// Documents contain sections, you can have multiple sections per document, go here to learn more about sections
+	// This simple example will only contain one section
+
+	const {
+		firstname,
+		lastname,
+		job,
+		email,
+		phone,
+		ending,
+		linkedin,
+		image,
+		booking,
+	} = req.body;
+	const imagePath = path.join(__dirname, "images", image);
+	const imageBuffer = fs.readFileSync(imagePath);
+
+	const banner = new ImageRun({
+		type: 'png',
+		data: fs.readFileSync(imagePath),
+		transformation: {
+			width: 500,
+			height: 155,
+		},
+	});
+	const doc = new Document({
+		sections: [
+			{
+				properties: {},
+				children: [
+					new Paragraph({
+						children: [
+							new TextRun("Hello World"),
+							new TextRun({
+								text: "Foo Bar",
+								bold: true,
+							}),
+							new TextRun({
+								text: "\tGithub is the best",
+								bold: true,
+							}),
+						],
+					}),
+					new Paragraph({
+						children: [
+							new ImageRun({
+								type: 'png',
+								data: imageBuffer,
+								transformation: { width: 500, height: 155 },
+							}),
+						],
+					})
+				],
+			},
+		],
+	});
+
+	// Used to export the file into a .docx file
+	Packer.toBuffer(doc).then((buffer) => {
+		fs.writeFileSync("My Document.docx", buffer);
+	});
+});*/
 
 // Start server
 app.listen(PORT, () => {
