@@ -20,6 +20,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+// linkedin image
+const linkedinIconBuffer = fs.readFileSync(path.join(__dirname, "icons/LI-In-Bug.png"));
+
 //styles
 function linkStyle() {
 	return {
@@ -28,12 +31,6 @@ function linkStyle() {
 	};
 }
 
-function boldStyle() {
-	return {
-		color: "0000FF",
-		bold: true,
-	};
-}
 // Route
 app.post("/generate", async (req, res) => {
 	const {
@@ -53,17 +50,16 @@ app.post("/generate", async (req, res) => {
 			children: [
 				new TextRun({
 					text: `${firstname} ${lastname}`,
-					...boldStyle(),
+					color: "003d3d"
 				}),
 			],
 		}),
 		new Paragraph(job),
-		new Paragraph(""),
         new Paragraph("____________________________________________________________________"),
         new Paragraph(""),
 		new Paragraph({
 			children: [
-				new TextRun("               ✉️ "),
+				new TextRun("✉️ "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -78,7 +74,7 @@ app.post("/generate", async (req, res) => {
 		}),
 		new Paragraph({
 			children: [
-				new TextRun("               📞 "),
+				new TextRun("📞 "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -96,7 +92,7 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("               📱 "),
+					new TextRun(" 📱  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -111,20 +107,28 @@ app.post("/generate", async (req, res) => {
 			})
 		);
 	}
-    if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
-        paragraphs.push(new Paragraph(""));
-    }
+    // if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
+    //     paragraphs.push(new Paragraph(""));
+    // }
 	if (linkedin && linkedin.trim() !== "") {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("               linkedIn -> "),
+					new TextRun(" "),
+					new ImageRun({
+						data: linkedinIconBuffer,
+						transformation: {
+							width: 15,
+							height: 13,
+						},
+					}),
+					new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
 								text: linkedin.replace(
-									"https://linkedin.com",
-									""
+									/[^ ]*\/in\b/,
+									"/in"
 								),
 								//hyperlink: `mailto:${email}`,
 								...linkStyle(),
@@ -140,7 +144,7 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-                    new TextRun("               Termin -> "),
+                    new TextRun("📆 "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -189,7 +193,8 @@ app.post("/generate", async (req, res) => {
 			children: [
 				new TextRun({
 					text: "PureSolution GmbH",
-					...boldStyle(),
+					color: "003d3d",
+					bold: true,
 				}),
 				new TextRun(" | EDV Dienstleistung und Softwareentwicklung"),
 			],
@@ -238,7 +243,7 @@ app.post("/generate", async (req, res) => {
 				new TextRun({
 					text: "PureSolution GmbH | Geschäftsführer: Hasso Leeder, Tilo Siegler | Registergericht Fürth HRB 8044 |",
 					size: 16, // 9pt
-					color: "BEC0BF",
+					color: "808080",
 				}),
 			],
 		}),
@@ -247,7 +252,7 @@ app.post("/generate", async (req, res) => {
 				new TextRun({
 					text: "USt.-IdNr.: DE209913453 | Datenschutzhinweis: PureSolution GmbH verarbeitet Ihre Kontaktdaten elektronisch. |",
 					size: 16, // 9pt
-					color: "BEC0BF",
+					color: "#808080",
 				})
 			],
 		}),
@@ -256,7 +261,7 @@ app.post("/generate", async (req, res) => {
 				new TextRun({
 					text: "Weitere Informationen finden Sie in der ",
 					size: 16, // 9pt
-					color: "BEC0BF",
+					color: "#808080",
 				}),
 				new ExternalHyperlink({
 					children: [
@@ -264,7 +269,7 @@ app.post("/generate", async (req, res) => {
 							text: "Datenschutzerklärung.",
 							underline: { type: "single" },
                             size: 16, // 9pt
-					        color: "BEC0BF",
+					        color: "#808080",
 						}),
 					],
 					link: "https://www.puresolution.de/datenschutz/Datenschutzhinweis_Kontakt.pdf",
