@@ -10,6 +10,7 @@ const {
 	TextRun,
 	ImageRun,
 	ExternalHyperlink,
+	TabStopType,
 } = require("docx");
 
 const app = express();
@@ -21,7 +22,9 @@ app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 // linkedin image
-const linkedinIconBuffer = fs.readFileSync(path.join(__dirname, "icons/LI-In-Bug.png"));
+const linkedinIconBuffer = fs.readFileSync(
+	path.join(__dirname, "icons/LI-In-Bug.png")
+);
 
 //styles
 function linkStyle() {
@@ -50,16 +53,19 @@ app.post("/generate", async (req, res) => {
 			children: [
 				new TextRun({
 					text: `${firstname} ${lastname}`,
-					color: "003d3d"
+					color: "003d3d",
 				}),
 			],
 		}),
 		new Paragraph(job),
-        new Paragraph("____________________________________________________________________"),
-        new Paragraph(""),
+		new Paragraph(
+			"____________________________________________________________________"
+		),
+		new Paragraph(""),
 		new Paragraph({
 			children: [
-				new TextRun("✉️ "),
+				new TextRun("✉️  "),
+				
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -71,10 +77,11 @@ app.post("/generate", async (req, res) => {
 					link: `mailto:${email}`,
 				}),
 			],
+			
 		}),
 		new Paragraph({
 			children: [
-				new TextRun("📞 "),
+				new TextRun("📞  "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -85,6 +92,12 @@ app.post("/generate", async (req, res) => {
 					link: `tel:+4991181000${ending}`,
 				}),
 			],
+			tabStops: [
+				{
+					type: TabStopType.LEFT,
+					position: 1000,
+				},
+			],
 		}),
 	];
 
@@ -92,7 +105,7 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun(" 📱  "),
+					new TextRun("📱  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -101,21 +114,27 @@ app.post("/generate", async (req, res) => {
 								...linkStyle(),
 							}),
 						],
-						link: `tel:${phone.replaceAll(' ','')}`,
+						link: `tel:${phone.replaceAll(" ", "")}`,
 					}),
+				],
+				tabStops: [
+					{
+						type: TabStopType.LEFT,
+						position: 1000,
+					},
 				],
 			})
 		);
 	}
-    // if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
-    //     paragraphs.push(new Paragraph(""));
-    // }
+	// if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
+	//     paragraphs.push(new Paragraph(""));
+	// }
 	if (linkedin && linkedin.trim() !== "") {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun(" "),
 					new ImageRun({
+						type: "png",
 						data: linkedinIconBuffer,
 						transformation: {
 							width: 15,
@@ -126,16 +145,19 @@ app.post("/generate", async (req, res) => {
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
-								text: linkedin.replace(
-									/[^ ]*\/in\b/,
-									"/in"
-								),
+								text: linkedin.replace(/[^ ]*\/in\b/, "/in"),
 								//hyperlink: `mailto:${email}`,
 								...linkStyle(),
 							}),
 						],
 						link: linkedin,
 					}),
+				],
+				tabStops: [
+					{
+						type: TabStopType.LEFT,
+						position: 2268,
+					},
 				],
 			})
 		);
@@ -144,13 +166,13 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-                    new TextRun("📆 "),
+					new TextRun("📆  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
 								text: "hier vereinbaren",
 								bold: true,
-                                color: "0000FF",
+								color: "0000FF",
 								underline: { type: "single" },
 							}),
 						],
@@ -179,7 +201,7 @@ app.post("/generate", async (req, res) => {
 		new Paragraph({
 			children: [
 				new ImageRun({
-					type: 'png',
+					type: "png",
 					data: imageBuffer,
 					transformation: { width: 500, height: 155 },
 				}),
@@ -200,9 +222,9 @@ app.post("/generate", async (req, res) => {
 			],
 		}),
 		new Paragraph({
-            children: [
-                new TextRun("Im Pinderpark 5, 90513 Zirndorf | "),
-                new ExternalHyperlink({
+			children: [
+				new TextRun("Im Pinderpark 5, 90513 Zirndorf | "),
+				new ExternalHyperlink({
 					children: [
 						new TextRun({
 							text: "www.puresolution.de",
@@ -211,8 +233,8 @@ app.post("/generate", async (req, res) => {
 					],
 					link: "https://www.puresolution.de",
 				}),
-            ],
-        }),
+			],
+		}),
 		new Paragraph({
 			children: [
 				new TextRun("tel: "),
@@ -225,7 +247,7 @@ app.post("/generate", async (req, res) => {
 					],
 					link: "tel:+49911810000",
 				}),
-                new TextRun(" | fax: "),
+				new TextRun(" | fax: "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -253,7 +275,7 @@ app.post("/generate", async (req, res) => {
 					text: "USt.-IdNr.: DE209913453 | Datenschutzhinweis: PureSolution GmbH verarbeitet Ihre Kontaktdaten elektronisch. |",
 					size: 16, // 9pt
 					color: "#808080",
-				})
+				}),
 			],
 		}),
 		new Paragraph({
@@ -268,8 +290,8 @@ app.post("/generate", async (req, res) => {
 						new TextRun({
 							text: "Datenschutzerklärung.",
 							underline: { type: "single" },
-                            size: 16, // 9pt
-					        color: "#808080",
+							size: 16, // 9pt
+							color: "#808080",
 						}),
 					],
 					link: "https://www.puresolution.de/datenschutz/Datenschutzhinweis_Kontakt.pdf",
@@ -342,17 +364,15 @@ app.post("/generate", async (req, res) => {
 			firstname +
 			"-" +
 			lastname +
-			".docx",
+			".docx"
 	);
 	res.setHeader(
 		"Content-Type",
 		"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-		
 	);
 	res.send(buffer);
 
 	//fs.writeFileSync("My Document.docx", buffer);
-
 });
 
 /*
