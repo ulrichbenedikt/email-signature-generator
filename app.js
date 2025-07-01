@@ -21,10 +21,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// linkedin image
-const linkedinIconBuffer = fs.readFileSync(
-	path.join(__dirname, "icons/LI-In-Bug.png")
-);
+const icons = {
+	linkedin: fs.readFileSync(path.join(__dirname, "icons/linkedin.png")),
+	email: fs.readFileSync(path.join(__dirname, "icons/email.png")),
+	phone: fs.readFileSync(path.join(__dirname, "icons/telefon.png")),
+	mobil: fs.readFileSync(path.join(__dirname, "icons/mobiltelefon.png")),
+	schedule: fs.readFileSync(path.join(__dirname, "icons/zeitplan.png")),
+};
 
 //styles
 function linkStyle() {
@@ -64,8 +67,15 @@ app.post("/generate", async (req, res) => {
 		new Paragraph(""),
 		new Paragraph({
 			children: [
-				new TextRun("✉️  "),
-				
+				new ImageRun({
+					type: "png",
+					data: icons.email,
+					transformation: {
+						width: 10,
+						height: 10,
+					},
+				}),
+				new TextRun("  "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -77,11 +87,18 @@ app.post("/generate", async (req, res) => {
 					link: `mailto:${email}`,
 				}),
 			],
-			
 		}),
 		new Paragraph({
 			children: [
-				new TextRun("📞  "),
+				new ImageRun({
+					type: "png",
+					data: icons.phone,
+					transformation: {
+						width: 10,
+						height: 10,
+					},
+				}),
+				new TextRun("  "),
 				new ExternalHyperlink({
 					children: [
 						new TextRun({
@@ -92,12 +109,6 @@ app.post("/generate", async (req, res) => {
 					link: `tel:+4991181000${ending}`,
 				}),
 			],
-			tabStops: [
-				{
-					type: TabStopType.LEFT,
-					position: 1000,
-				},
-			],
 		}),
 	];
 
@@ -105,7 +116,15 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("📱  "),
+					new ImageRun({
+					type: "png",
+					data: icons.mobil,
+					transformation: {
+						width: 10,
+						height: 10,
+					},
+				}),
+				new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -116,13 +135,7 @@ app.post("/generate", async (req, res) => {
 						],
 						link: `tel:${phone.replaceAll(" ", "")}`,
 					}),
-				],
-				tabStops: [
-					{
-						type: TabStopType.LEFT,
-						position: 1000,
-					},
-				],
+				]
 			})
 		);
 	}
@@ -135,10 +148,10 @@ app.post("/generate", async (req, res) => {
 				children: [
 					new ImageRun({
 						type: "png",
-						data: linkedinIconBuffer,
+						data: icons.linkedin,
 						transformation: {
-							width: 15,
-							height: 13,
+							width: 10,
+							height: 10,
 						},
 					}),
 					new TextRun("  "),
@@ -153,12 +166,6 @@ app.post("/generate", async (req, res) => {
 						link: linkedin,
 					}),
 				],
-				tabStops: [
-					{
-						type: TabStopType.LEFT,
-						position: 2268,
-					},
-				],
 			})
 		);
 	}
@@ -166,7 +173,15 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new TextRun("📆  "),
+					new ImageRun({
+					type: "png",
+					data: icons.schedule,
+					transformation: {
+						width: 10,
+						height: 10,
+					},
+				}),
+				new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
