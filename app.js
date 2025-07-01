@@ -10,7 +10,6 @@ const {
 	TextRun,
 	ImageRun,
 	ExternalHyperlink,
-	TabStopType,
 } = require("docx");
 
 const app = express();
@@ -36,6 +35,16 @@ function linkStyle() {
 		underline: { type: "single" },
 	};
 }
+function Image(icon){
+	return new ImageRun({
+		type: "png",
+		data: icon,
+		transformation: {
+			width: 10,
+			height: 10,
+		}
+	})
+}
 
 // Route
 app.post("/generate", async (req, res) => {
@@ -52,14 +61,7 @@ app.post("/generate", async (req, res) => {
 	} = req.body;
 
 	const paragraphs = [
-		new Paragraph({
-			children: [
-				new TextRun({
-					text: `${firstname} ${lastname}`,
-					color: "003d3d",
-				}),
-			],
-		}),
+		new Paragraph(`${firstname} ${lastname}`),
 		new Paragraph(job),
 		new Paragraph(
 			"____________________________________________________________________"
@@ -67,14 +69,7 @@ app.post("/generate", async (req, res) => {
 		new Paragraph(""),
 		new Paragraph({
 			children: [
-				new ImageRun({
-					type: "png",
-					data: icons.email,
-					transformation: {
-						width: 10,
-						height: 10,
-					},
-				}),
+				Image(icons.email),
 				new TextRun("  "),
 				new ExternalHyperlink({
 					children: [
@@ -90,14 +85,7 @@ app.post("/generate", async (req, res) => {
 		}),
 		new Paragraph({
 			children: [
-				new ImageRun({
-					type: "png",
-					data: icons.phone,
-					transformation: {
-						width: 10,
-						height: 10,
-					},
-				}),
+				Image(icons.phone),
 				new TextRun("  "),
 				new ExternalHyperlink({
 					children: [
@@ -116,15 +104,8 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new ImageRun({
-					type: "png",
-					data: icons.mobil,
-					transformation: {
-						width: 10,
-						height: 10,
-					},
-				}),
-				new TextRun("  "),
+					Image(icons.mobil),
+					new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -139,21 +120,11 @@ app.post("/generate", async (req, res) => {
 			})
 		);
 	}
-	// if ((linkedin && linkedin.trim() !== "") || (booking && booking.trim() !== "")) {
-	//     paragraphs.push(new Paragraph(""));
-	// }
 	if (linkedin && linkedin.trim() !== "") {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new ImageRun({
-						type: "png",
-						data: icons.linkedin,
-						transformation: {
-							width: 10,
-							height: 10,
-						},
-					}),
+					Image(icons.linkedin),
 					new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
@@ -173,15 +144,8 @@ app.post("/generate", async (req, res) => {
 		paragraphs.push(
 			new Paragraph({
 				children: [
-					new ImageRun({
-					type: "png",
-					data: icons.schedule,
-					transformation: {
-						width: 10,
-						height: 10,
-					},
-				}),
-				new TextRun("  "),
+					Image(icons.schedule),
+					new TextRun("  "),
 					new ExternalHyperlink({
 						children: [
 							new TextRun({
@@ -230,7 +194,6 @@ app.post("/generate", async (req, res) => {
 			children: [
 				new TextRun({
 					text: "PureSolution GmbH",
-					color: "003d3d",
 					bold: true,
 				}),
 				new TextRun(" | EDV Dienstleistung und Softwareentwicklung"),
@@ -386,75 +349,7 @@ app.post("/generate", async (req, res) => {
 		"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 	);
 	res.send(buffer);
-
-	//fs.writeFileSync("My Document.docx", buffer);
 });
-
-/*
-app.post("/generate", async (req, res) => {
-
-	// Documents contain sections, you can have multiple sections per document, go here to learn more about sections
-	// This simple example will only contain one section
-
-	const {
-		firstname,
-		lastname,
-		job,
-		email,
-		phone,
-		ending,
-		linkedin,
-		image,
-		booking,
-	} = req.body;
-	const imagePath = path.join(__dirname, "images", image);
-	const imageBuffer = fs.readFileSync(imagePath);
-
-	const banner = new ImageRun({
-		type: 'png',
-		data: fs.readFileSync(imagePath),
-		transformation: {
-			width: 500,
-			height: 155,
-		},
-	});
-	const doc = new Document({
-		sections: [
-			{
-				properties: {},
-				children: [
-					new Paragraph({
-						children: [
-							new TextRun("Hello World"),
-							new TextRun({
-								text: "Foo Bar",
-								bold: true,
-							}),
-							new TextRun({
-								text: "\tGithub is the best",
-								bold: true,
-							}),
-						],
-					}),
-					new Paragraph({
-						children: [
-							new ImageRun({
-								type: 'png',
-								data: imageBuffer,
-								transformation: { width: 500, height: 155 },
-							}),
-						],
-					})
-				],
-			},
-		],
-	});
-
-	// Used to export the file into a .docx file
-	Packer.toBuffer(doc).then((buffer) => {
-		fs.writeFileSync("My Document.docx", buffer);
-	});
-});*/
 
 // Start server
 app.listen(PORT, () => {
